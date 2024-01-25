@@ -1,35 +1,63 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { TwitterfollowCard } from './components/TwitterFollowCard'
 
-function App() {
-  const [count, setCount] = useState(0)
 
+
+const users = [
+  {
+    userName: 'midudev',
+    name: 'Miguel Ángel Durán',
+    isFollowing: true
+  },
+  {
+    userName: 'pheralb',
+    name: 'Pablo H.',
+    isFollowing: false
+  },
+  {
+    userName: 'PacoHdezs',
+    name: 'Paco Hdez',
+    isFollowing: true
+  },
+  {
+    userName: 'TMChein',
+    name: 'Tomas',
+    isFollowing: false
+  }
+]
+
+
+export default function  App() {
+  //Paso una funcion como prop
+  const formatUserName = (userName) => `@${userName}`
+  const [numero, setNumero] = useState(0)
+
+  const handleNumero = (otro) =>{
+    setNumero(numero + 1)
+  }
+  
+  
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <section className='App'>
+      {
+        users.map(users =>{
+          //La constante de abajo podria ir direactamente en users
+          const {userName, name, isFollowing } = users
+          return (
+            <TwitterfollowCard
+              key={userName}
+              userName={userName}
+              formatUserName={formatUserName}
+              name = {name}
+              initialIsFollow={isFollowing}
+             />
+          )
+          
+        })
+      }
+
+    </section>
   )
 }
 
-export default App

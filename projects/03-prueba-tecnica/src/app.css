@@ -1,0 +1,50 @@
+/* main{
+    box-sizing: border-box;
+    max-height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    display: grid;
+    place-content: center;
+} */
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main{
+    background-color: #1F2544;
+    color: white;
+    display: grid;
+    height: 100vh;
+    place-content: center;
+
+}
+
+section{
+    margin-bottom: 8rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    
+}
+ section p{
+    justify-items: center;
+    text-align: center;
+ }
+
+.image_wrapper{
+    width: 600px;
+    height: 400px;
+    overflow: hidden;
+
+}
+image{
+    object-fit: cover;
+}
+
+button{
+    padding: 10px 24px;
+    border-radius: 20px;
+    cursor: pointer;
+}

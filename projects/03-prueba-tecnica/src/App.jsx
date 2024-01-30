@@ -15,7 +15,7 @@ export default function App () {
     <main>
       <section>
         <h1>RECUPERO UNA IMAGEN SEGUN LA FRASE</h1>
-        {/* {fact && <p> {fact} </p>} */}
+        <p>buenos dias </p>
         <div className='image_wrapper'>
           {urlImage && <img src={urlImage} alt='Imagen del gatito' />}
         </div>

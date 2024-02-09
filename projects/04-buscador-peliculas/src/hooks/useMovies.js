@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo, useCallback } from 'react'
 import { searchMovies } from '../services/movies'
 
-export function useMovies ({ search, sort }) {
+export function useMovies ({ sort }) {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -11,8 +11,6 @@ export function useMovies ({ search, sort }) {
   // Solo se ejecutara cuando se llame no cuando cambie nada
   // Esta pasado por parametro en para optimizar
   const getMovies = useCallback(async ({ search }) => {
-    console.log('renderizado intenroo')
-
     if (previousSearch.current === search) return
 
     try {
@@ -28,6 +26,8 @@ export function useMovies ({ search, sort }) {
     }
   }
   , [])
+
+  //! console.log('buenos dias')
 
   // Use memo evita que se vuelva a renderizar con cada camvio de sort o search (Porque search cambia cada vez que escribo)
   const sortedMovies = useMemo(() => {

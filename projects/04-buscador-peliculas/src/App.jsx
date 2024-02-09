@@ -4,10 +4,11 @@ import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import { useSearch } from './hooks/useSearch'
 import debounce from 'just-debounce-it'
+
 function App () {
   // No se si es correcto pasarle la lista desde aqui o meter el customHook dentro del componente Movies
-  const { search, setSearch, error } = useSearch()
   const [sort, setSort] = useState(false)
+  const { search, setSearch, error } = useSearch()
   const { movies, getMovies, loading } = useMovies({ search, sort })
 
   const handleSort = () => {
@@ -15,7 +16,6 @@ function App () {
   }
 
   const debouncedGetMovies = useCallback(debounce(search => {
-    console.log('search', search)
     getMovies({ search })
   }, 300), [])
 

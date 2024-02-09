@@ -5,6 +5,8 @@ export function useSearch () {
   const [error, setError] = useState(null)
   const isFirstInput = useRef(true)
 
+  console.log('Se esta rerendeizando useSearch')
+
   useEffect(() => {
     // Con la referencia hago que la primera vez que se inicie no salga en rojo
     // Al ser useReff no se renderiza con cada busqueda nueva

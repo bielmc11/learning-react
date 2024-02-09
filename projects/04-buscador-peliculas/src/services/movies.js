@@ -1,6 +1,7 @@
-const APY_KEY = '95cc71c7'
-
+import { APY_KEY } from '../../myEnv'
+// const APY_KEY = '95cc71c7'
 // Esto lo consume useMovies
+
 export async function searchMovies ({ search }) {
   if (search === null) return null
   try {

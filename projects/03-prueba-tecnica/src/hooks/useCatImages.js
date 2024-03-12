@@ -17,6 +17,5 @@ export function useCatImage ({ fact }) {
       })
       .catch(error => console.log(error))
   }, [fact])
-  console.log()
   return { urlImage }
 }

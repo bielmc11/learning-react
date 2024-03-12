@@ -1,9 +1,11 @@
-import { createContext, useReducer, useState } from 'react'
+import { createContext, useReducer } from 'react'
 
 export const CartContext = createContext()
 
+// 1- Estado inicial
 const initialState = []
 
+// 2 - reducer
 const reducer = (state, action) => {
   const { type: actionType, payload: actionPayload } = action
   switch (actionType) {

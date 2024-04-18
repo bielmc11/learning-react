@@ -12,6 +12,13 @@ function App () {
     setEnablePaint(!enablePaint)
   }
 
+  const handleDeleteUsers = (email: string) => {
+    const filteredUsers = users.filter((user) => {
+      return user.email !== email
+    })
+    setUsers(filteredUsers)
+  }
+
   const sortedUsers = sortByCountry
     ? [...users].sort((a, b) => {
         const countryA = a.location?.country ?? ''
@@ -21,7 +28,7 @@ function App () {
     : users
 
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=4')
+    fetch('https://randomuser.me/api/?results=10')
       .then(async res => await res.json())
       .then((res: APIResults) => {
         setUsers(res.results)
@@ -38,7 +45,7 @@ function App () {
       <button onClick={() => { toggleColor() }} >Colorear filas</button>
       <button onClick={() => { setSortByCountry(!sortByCountry) }} >Ordenar por pais</button>
     </div>
-     <UserList users={sortedUsers} enablePaint={enablePaint}/>
+     <UserList users={sortedUsers} enablePaint={enablePaint} deleteUser={handleDeleteUsers} />
     </>
   )
 }

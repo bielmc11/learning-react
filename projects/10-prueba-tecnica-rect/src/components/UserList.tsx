@@ -3,9 +3,10 @@ import './UserList.css'
 interface Props {
   users: User[]
   enablePaint: boolean
+  deleteUser: (email: string) => void
 }
 
-export function UserList ({ users, enablePaint }: Props) {
+export function UserList ({ users, enablePaint, deleteUser }: Props) {
   const paintTable = enablePaint ? 'paint' : ''
   return (
       <table width='100%'>
@@ -21,16 +22,18 @@ export function UserList ({ users, enablePaint }: Props) {
 
         <tbody>
         {
-            users.map((user, index) => {
+            users.map((user) => {
               return (
-                    <tr key={index} className={paintTable}>
+                    <tr key={user.email} className={paintTable}>
                         <td>
                             <img src={user.picture?.thumbnail} alt="Imagen de Perfil" />
                         </td>
                         <td>{user.name?.first}</td>
                         <td>{user.name?.last}</td>
                         <td>{user.location?.country} </td>
-                        <td>Borrar</td>
+                        <td>
+                          <button onClick={() => { deleteUser(user.email) }} >Elimianar</button>
+                        </td>
                     </tr>
               )
             })

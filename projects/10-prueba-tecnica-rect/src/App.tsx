@@ -5,8 +5,23 @@ import { UserList } from './components/UserList'
 
 function App () {
   const [users, setUsers] = useState<User[]>([])
+  const [enablePaint, setEnablePaint] = useState<boolean>(false)
+  const [sortByCountry, setSortByCountry] = useState<boolean>(false)
+
+  const toggleColor = () => {
+    setEnablePaint(!enablePaint)
+  }
+
+  const sortedUsers = sortByCountry
+    ? [...users].sort((a, b) => {
+        const countryA = a.location?.country ?? ''
+        const countryB = b.location?.country ?? ''
+        return countryA.localeCompare(countryB)
+      })
+    : users
+
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=5')
+    fetch('https://randomuser.me/api/?results=4')
       .then(async res => await res.json())
       .then((res: APIResults) => {
         setUsers(res.results)
@@ -19,7 +34,11 @@ function App () {
   return (
     <>
     <h1>Prueba tecnica</h1>
-     <UserList users={users} />
+    <div>
+      <button onClick={() => { toggleColor() }} >Colorear filas</button>
+      <button onClick={() => { setSortByCountry(!sortByCountry) }} >Ordenar por pais</button>
+    </div>
+     <UserList users={sortedUsers} enablePaint={enablePaint}/>
     </>
   )
 }

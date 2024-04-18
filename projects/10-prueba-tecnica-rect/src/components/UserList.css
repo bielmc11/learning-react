@@ -1,0 +1,10 @@
+tbody .paint:nth-child(odd) td{
+    background-color: #dad7cd;
+}
+tbody .paint:nth-child(even) td{
+    background-color: #a3b18a;
+}
+
+table{
+    min-height: 300px;
+}

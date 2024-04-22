@@ -8,3 +8,7 @@ tbody .paint:nth-child(even) td{
 table{
     min-height: 300px;
 }
+
+.pointer{
+    cursor: pointer;
+}

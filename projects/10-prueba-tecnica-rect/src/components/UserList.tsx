@@ -1,21 +1,22 @@
-import { type User } from '../interfaces/usersInterfaces'
+import { SortBy, type User } from '../interfaces/usersInterfaces'
 import './UserList.css'
 interface Props {
   users: User[]
   enablePaint: boolean
   deleteUser: (email: string) => void
+  handleChangeSort: (sort: SortBy) => void
 }
 
-export function UserList ({ users, enablePaint, deleteUser }: Props) {
+export function UserList ({ users, enablePaint, deleteUser, handleChangeSort }: Props) {
   const paintTable = enablePaint ? 'paint' : ''
   return (
       <table width='100%'>
         <thead>
           <tr>
             <th>Foto</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>País</th>
+            <th className='pointer' onClick={() => { handleChangeSort(SortBy.NAME) }}>Nombre</th>
+            <th className='pointer' onClick={() => { handleChangeSort(SortBy.LAST) }}>Apellido</th>
+            <th className='pointer' onClick={() => { handleChangeSort(SortBy.COUNTRY) }}>País</th>
             <th>Acciones</th>
           </tr>
         </thead>

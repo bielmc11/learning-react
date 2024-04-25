@@ -9,6 +9,11 @@ function App () {
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE)
   const [filterCountry, setFilterCountry] = useState<string | null >(null)
 
+  const [loanding, setLoanding] = useState<boolean>(false)
+  const [error, setError] = useState<boolean >(false)
+
+  const [currentPage, setCurrentPage] = useState(1)
+
   const originalArrayUsers = useRef<User[]>([])
 
   const toggleColor = () => {
@@ -35,20 +40,6 @@ function App () {
       })
       : users
   }, [users, filterCountry])
-
-  // 2- Ordeno solo si es necesario
-  // 3- Para ordenar segun columna: estado con sortedByColumn : Columnas, paso el setSortedBycolumn al componente y segun donde clicke aactualizo el componente padre con una string
-  // 4- Ahora debo modificar el sortedUsers para que tenga en cuenta el valor pasado creo
-  /*  const sortedUsers = useMemo(() => {
-    console.log('Ordeno la array')
-    return sorting === SortBy.COUNTRY
-      ? [...filterUsers].sort((a, b) => {
-          const countryA = a.location?.country ?? ''
-          const countryB = b.location?.country ?? ''
-          return countryA.localeCompare(countryB)
-        })
-      : filterUsers
-  }, [sorting, filterUsers]) */
 
   const sortedUsers2 = useMemo(() => {
     console.log('El sorting esta en: ', sorting)
@@ -85,27 +76,58 @@ function App () {
   }
 
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=10')
-      .then(async res => await res.json())
+    setLoanding(true)
+    setError(false)
+    fetch(`https://randomuser.me/api/?results=10&seed=biel=${currentPage}`)
+      .then(async res => {
+        if (!res.ok) { throw new Error('Error en la petición') }
+        return await res.json()
+      })
       .then((res: APIResults) => {
-        setUsers(res.results)
-        originalArrayUsers.current = res.results
+        // setUsers(res.results)
+        setUsers(prevstate => {
+          const newUsers = prevstate.concat(res.results)
+          originalArrayUsers.current = newUsers
+          return newUsers
+        })
+        console.log(loanding)
       })
       .catch(error => {
-        console.log(error)
+        console.log(error.message)
+        setError(true)
       })
-  }, [])
+      .finally(() => {
+        setLoanding(false)
+      })
+  }, [currentPage])
 
   return (
     <>
     <h1>Prueba tecnica</h1>
     <header>
+      {/* ! Me falta el LOANGIN!!! */}
       <button onClick={() => { toggleColor() }} >Colorear filas</button>
       <button onClick={toggleSort} > {sorting === SortBy.COUNTRY ? 'No ordenar por paises' : 'ordenar por paises'} </button>
       <button onClick={handleReset} >Reset</button>
       <input type="text" placeholder='Filtra por país' onChange={(e) => { setFilterCountry(e.target.value) } } />
     </header>
-     <UserList handleChangeSort={handleChangeSort} users={sortedUsers2} enablePaint={enablePaint} deleteUser={handleDeleteUsers} />
+
+    <main>
+      {
+         users.length > 0 && <UserList handleChangeSort={handleChangeSort} users={sortedUsers2} enablePaint={enablePaint} deleteUser={handleDeleteUsers} />
+      }
+      {loanding && <p>Cargando...</p>}
+
+      {!loanding && error && <p>Ha ocurido un error inesperado</p>}
+
+      {!loanding && !error && users.length === 0 && <p>No se han obtenido resultados</p>}
+
+      {
+        !loanding && !error && users.length !== 0 && <button onClick={() => { setCurrentPage(state => state + 1) }}> Cargar más resultados </button>
+      }
+
+    </main>
+
     </>
   )
 }
